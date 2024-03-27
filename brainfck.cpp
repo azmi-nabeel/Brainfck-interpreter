@@ -4,12 +4,14 @@
 
 using namespace std;
 
+const int tape_sz = 1e5;
+
 int main()
 {
     string program;
     cin >> program;
 
-    vector<char> tape = {0};
+    vector<char> tape(tape_sz, char(0));
     int tape_id = 0;
     char curr_instruction;
 
@@ -37,7 +39,19 @@ int main()
         }
         else if (curr_instruction == '.')
         {
-            cout << tape[tape_id] << " ";
+            cout << tape[tape_id];
+        }
+        else if (curr_instruction == '>')
+        {
+            tape_id++;
+            if (tape_id == tape_sz)
+                tape_id = 0;
+        }
+        else if (curr_instruction == '<')
+        {
+            tape_id--;
+            if (tape_id == -1)
+                tape_id = tape_sz - 1;
         }
         else
             ;
