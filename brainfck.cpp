@@ -15,6 +15,8 @@ int main()
     int tape_id = 0;
     char curr_instruction;
 
+    stack<int> loop_begin_index;
+
     int prog_len = program.size();
     for (int i = 0; i < prog_len; i++)
     {
@@ -53,8 +55,26 @@ int main()
             if (tape_id == -1)
                 tape_id = tape_sz - 1;
         }
-        else
-            ;
+        else if (curr_instruction == '[')
+        {
+            loop_begin_index.push(i);
+            int j = i;
+            while (j < prog_len && program[j] != ']')
+                j++;
+            if (tape[tape_id] == 0)
+                i = j;
+        }
+        else if (curr_instruction == ']')
+        {
+            if (tape[tape_id] > 0)
+            {
+                i = loop_begin_index.top();
+            }
+            else
+            {
+                loop_begin_index.pop();
+            }
+        }
     }
     return 0;
 }
